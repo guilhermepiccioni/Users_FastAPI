@@ -13,4 +13,4 @@ db_run:
 
 .PHONY: fastapi_run
 fastapi_run: build
-	$(DOCKER_COMPOSE) run app_fastapi
+	$(DOCKER_COMPOSE) up app_fastapi
