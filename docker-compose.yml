@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+
+  postgresql_db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: fast_db
+    ports:
+      - "5432:5432"
+    container_name: postgresql_db
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+
+  app_fastapi:
+    build: .
+#    restart: always
+    image: fastapi_image:latest
+    ports:
+      - "8000:8000"
+    links:
+      - postgresql_db
+    container_name: app_fastapi
+    volumes:
+      - .:/app
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_SERVER: fast_db
+    ports:
+      - "5050:80"
+    container_name: pgadmin4_container
+    depends_on:
+      - postgresql_db
