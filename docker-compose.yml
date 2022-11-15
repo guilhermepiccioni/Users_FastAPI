@@ -18,7 +18,6 @@ services:
 
   app_fastapi:
     build: .
-#    restart: always
     image: fastapi_image:latest
     ports:
       - "8000:8000"
