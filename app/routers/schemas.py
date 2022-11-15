@@ -23,4 +23,4 @@ class UpdateUser(BaseModel):
     age: int = None
     tel: str = None
     email: str = None
-    address: Optional[str] = None
+    address: str = None

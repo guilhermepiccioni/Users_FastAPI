@@ -47,7 +47,7 @@ def get_user_id(user_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/delete/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
-    res_user = db.query(models.User).filter(models.User.username == user_id)
+    res_user = db.query(models.User).filter(models.User.id == user_id)
     if not res_user.first():
         return "User not found !"
     res_user.delete(synchronize_session=False)
@@ -57,11 +57,11 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 @router.patch("/update/{user_id}")
 def update_user(user_id: int, updateUser: UpdateUser, db: Session = Depends(get_db)):
-    res_user = db.query(models.User).filter(models.User.username == user_id)
+    res_user = db.query(models.User).filter(models.User.id == user_id)
     if not res_user:
         return {"Response": "User not found."}
     res_user.update(updateUser.dict(exclude_unset=True))
     db.commit()
-    return res_user, {
-        "Response": "User updating successful."
+    return {
+        "Response": "User updating successful.",
     }
